@@ -392,12 +392,17 @@ describe('resolveKeychainCredentials', () => {
 });
 
 describe('getUsage', () => {
+  let savedConfigDir;
+
   beforeEach(async () => {
+    savedConfigDir = process.env.CLAUDE_CONFIG_DIR;
+    delete process.env.CLAUDE_CONFIG_DIR;
     tempHome = await createTempHome();
     clearCache(tempHome);
   });
 
   afterEach(async () => {
+    restoreEnvVar('CLAUDE_CONFIG_DIR', savedConfigDir);
     if (tempHome) {
       await rm(tempHome, { recursive: true, force: true });
       tempHome = null;
@@ -1005,12 +1010,17 @@ describe('getKeychainServiceNames', () => {
 });
 
 describe('getUsage caching behavior', { concurrency: false }, () => {
+  let savedConfigDir;
+
   beforeEach(async () => {
+    savedConfigDir = process.env.CLAUDE_CONFIG_DIR;
+    delete process.env.CLAUDE_CONFIG_DIR;
     cacheTempHome = await createTempHome();
     clearCache(cacheTempHome);
   });
 
   afterEach(async () => {
+    restoreEnvVar('CLAUDE_CONFIG_DIR', savedConfigDir);
     if (cacheTempHome) {
       await rm(cacheTempHome, { recursive: true, force: true });
       cacheTempHome = null;
